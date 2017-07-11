@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'social_django',
-    'ddapp.core'
+    'ddapp.core',
 ]
 
 MIDDLEWARE = [
@@ -120,7 +120,7 @@ USE_TZ = True
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.facebook.FacebookOAuth2',
-    'social.backends.google.GoogleOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.twitter.TwitterOAuth',
     'django.contrib.auth.backends.ModelBackend',
   )
@@ -128,8 +128,8 @@ AUTHENTICATION_BACKENDS = (
 # Social Auth Keys
 SOCIAL_AUTH_FACEBOOK_KEY = '324191621367341'
 SOCIAL_AUTH_FACEBOOK_SECRET = '524fada3c3ca5adgb279da535da1d863'
-SOCIAL_AUTH_TWITTER_KEY = 'G8CdgtqmQYY9vZbLgWZWkC3Z5'
-SOCIAL_AUTH_TWITTER_SECRET = 'vL5pwgZnrikggxHS7L9SLJUC8uWVpAJPKfFcJMlbadXH5ukjIb'
+SOCIAL_AUTH_TWITTER_KEY = 'DZmtm2gckiZLyCQKvLrTsKs1T'
+SOCIAL_AUTH_TWITTER_SECRET = 'Yg26kMFKQA9y81XLIyDFOPT0kWWbSrEN4lCFuOfTDsUjMbWDHm'
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '513152114712-j29slbkui2n3n7ecb81vs8mq50qdsmas.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'OaXn7o1cuRBWHha0AGjQLcF-'
 
@@ -143,3 +143,5 @@ STATIC_URL = '/static/'
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'home'
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
