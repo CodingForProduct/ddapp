@@ -1,7 +1,7 @@
 
 {% extends 'base.html' %}
 {% block head %}
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj1g_2Ag8L5rTustAap0vqn7D_H14rewo&libraries=place"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj1g_2Ag8L5rTustAap0vqn7D_H14rewo&libraries=places"></script>
 
     <script>
       function writeAddressName(latLng) {
@@ -30,49 +30,51 @@
 
         // Draw the map
         var mapObject = new google.maps.Map(document.getElementById("googleMap"), myOptions);
-        var infowindow = new google.maps.InfoWindow();
-        var service = new google.maps.places.PlacesService(map);
-        service.nearbySearch({
-        	location: userLatLng,
-        	radius: 1000,
-        	keyword: ['dispensaries']
-        }, callback);
+        // var infowindow = new google.maps.InfoWindow();
+        // var service = new google.maps.places.PlacesService(googleMap);
+        
 
-         function callback(results, status) {
-         	debugger
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-        	console.log('results', results)
-          for (var i = 0; i < results.length; i++) {
-            createMarker(results[i]);
-          }
-        }
-      }
+      //   service.nearbySearch({
+      //   	location: userLatLng,
+      //   	radius: 1000,
+      //   	keyword: ['dispensaries']
+      //   }, callback);
 
-      function createMarker(place) {
-      	console.log('place', place)
-        var placeLoc = place.geometry.location;
-        var marker = google.maps.Marker({
-          map: mapObject,
-          position: place.geometry.location
-        });
 
-        google.maps.event.addListener(marker, 'click', function() {
-          infowindow.setContent(place.name);
-          infowindow.open('googleMap', this);
-        });
-      }
+      // function callback(results, status) {
+      //   if (status === google.maps.places.PlacesServiceStatus.OK) {
+      //   	console.log('results', results)
+      //     for (var i = 0; i < results.length; i++) {
+      //       createMarker(results[i]);
+      //     }
+      //   }
+      // }
 
-        // Draw a circle around the user position to have an idea of the current localization accuracy
-        var circle = new google.maps.Circle({
-          center: userLatLng,
-          radius: position.coords.accuracy,
-          map: mapObject,
-          fillColor: '#000000',
-          fillOpacity: 0.5,
-          strokeColor: '#0000FF',
-          strokeOpacity: 1.0
-        });
-        mapObject.fitBounds(circle.getBounds());
+      // function createMarker(place) {
+      // 	console.log('place', place.geometry.location)
+      //   var placeLoc = place.geometry.location;
+      //   var marker = new google.maps.Marker({
+      //       map: googleMap,
+      //      position: place.geometry.location
+      //    });
+
+      //   google.maps.event.addListener(marker, 'click', function() {
+      //     infowindow.setContent(place.name);
+      //     infowindow.open(googleMap, this);
+      //   });
+      // }
+
+        //Draw a circle around the user position to have an idea of the current localization accuracy
+        // var circle = new google.maps.Circle({
+        //   center: userLatLng,
+        //   radius: position.coords.accuracy,
+        //   map: mapObject,
+        //   fillColor: '#000000',
+        //   fillOpacity: 0.5,
+        //   strokeColor: '#0000FF',
+        //   strokeOpacity: 1.0
+        // });
+        // mapObject.fitBounds(circle.getBounds());
       }
 
       function geolocationError(positionError) {
@@ -92,11 +94,9 @@
         else
           document.getElementById("error").innerHTML += "Your browser doesn't support the Geolocation API";
       }
-function init (){
-	geolocateUser()
-}
 
-      window.onload = init();
+
+      window.onload = geolocateUser();
     </script>
     
   {% endblock %}
