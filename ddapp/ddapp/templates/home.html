@@ -30,51 +30,48 @@
 
         // Draw the map
         var mapObject = new google.maps.Map(document.getElementById("googleMap"), myOptions);
-        // var infowindow = new google.maps.InfoWindow();
-        // var service = new google.maps.places.PlacesService(googleMap);
+        var infowindow = new google.maps.InfoWindow();
+        var service = new google.maps.places.PlacesService(mapObject);
         
+        // var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
 
-      //   service.nearbySearch({
-      //   	location: userLatLng,
-      //   	radius: 1000,
-      //   	keyword: ['dispensaries']
-      //   }, callback);
+        new google.maps.Marker({
+            map: mapObject,
+           position: userLatLng,
+           icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
+         });
 
 
-      // function callback(results, status) {
-      //   if (status === google.maps.places.PlacesServiceStatus.OK) {
-      //   	console.log('results', results)
-      //     for (var i = 0; i < results.length; i++) {
-      //       createMarker(results[i]);
-      //     }
-      //   }
-      // }
+        service.nearbySearch({
+        	location: userLatLng,
+        	radius: 1000,
+        	keyword: ['herb shop']
+        }, callback);
 
-      // function createMarker(place) {
-      // 	console.log('place', place.geometry.location)
-      //   var placeLoc = place.geometry.location;
-      //   var marker = new google.maps.Marker({
-      //       map: googleMap,
-      //      position: place.geometry.location
-      //    });
 
-      //   google.maps.event.addListener(marker, 'click', function() {
-      //     infowindow.setContent(place.name);
-      //     infowindow.open(googleMap, this);
-      //   });
-      // }
+      function callback(results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+        	console.log('results', results)
+          for (var i = 0; i < results.length; i++) {
+            createMarker(results[i]);
+          }
+        }
+      }
 
-        //Draw a circle around the user position to have an idea of the current localization accuracy
-        // var circle = new google.maps.Circle({
-        //   center: userLatLng,
-        //   radius: position.coords.accuracy,
-        //   map: mapObject,
-        //   fillColor: '#000000',
-        //   fillOpacity: 0.5,
-        //   strokeColor: '#0000FF',
-        //   strokeOpacity: 1.0
-        // });
-        // mapObject.fitBounds(circle.getBounds());
+      function createMarker(place) {
+      	console.log('place', place.geometry.location)
+        var placeLoc = place.geometry.location;
+        var marker = new google.maps.Marker({
+            map: mapObject,
+            position: place.geometry.location
+         });
+
+        google.maps.event.addListener(marker, 'click', function() {
+          infowindow.setContent(place.name);
+          infowindow.open(googleMap, this);
+        });
+      }
+
       }
 
       function geolocationError(positionError) {
