@@ -10,13 +10,14 @@
   </head>
   <body>
     <header>
-      <h1>Dope Destinations</h1>
+      {% load static %}
+      <img src="{% static "weed4.png" %}" height="120" width="120" alt="Dope Destinations"/>
+      <h3 style="font-family: sans-serif;">Dope Destinations</h3>
+      <p style="color: green; font-family: sans-serif;"><i>Low Fares. High Ride.</i></p>
       {% if user.is_authenticated %}
         <a href="{% url 'logout' %}">logout</a>
-      {% else %}
-        <a href="{% url 'login' %}">login</a> / <a href="{% url 'signup' %}">signup</a>
       {% endif %}
-      <hr>
+<!--      <hr>  -->
     </header>
     <main>
       {% block content %}
