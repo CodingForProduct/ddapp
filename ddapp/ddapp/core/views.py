@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from ddapp.core.forms import SignUpForm
 from django.shortcuts import render, redirect
+# from googlemaps import convert
 
 
 @login_required
@@ -26,3 +27,6 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
+
+def navigationview(request):
+    return render(request, 'navigation.html')  

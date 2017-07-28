@@ -1,9 +1,11 @@
-
 {% extends 'base.html' %}
 {% block head %}
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj1g_2Ag8L5rTustAap0vqn7D_H14rewo&libraries=places"></script>
 
     <script>
+    var latit;
+    var longit;
+
       function writeAddressName(latLng) {
         var geocoder = new google.maps.Geocoder();
         geocoder.geocode({
@@ -16,68 +18,101 @@
             document.getElementById("error").innerHTML += "Unable to retrieve your address" + "<br />";
         });
       }
-
       function geolocationSuccess(position) {
         var userLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
         // Write the formatted address
         writeAddressName(userLatLng);
-
         var myOptions = {
-          zoom : 15,
+          zoom : 12,
           center : userLatLng,
           mapTypeId : google.maps.MapTypeId.ROADMAP
         };
-
         // Draw the map
         var mapObject = new google.maps.Map(document.getElementById("googleMap"), myOptions);
         var infowindow = new google.maps.InfoWindow();
         var service = new google.maps.places.PlacesService(mapObject);
         
         // var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
-
         new google.maps.Marker({
             map: mapObject,
            position: userLatLng,
            icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
          });
-
-
         service.nearbySearch({
-        	location: userLatLng,
-        	radius: 1000,
-        	keyword: ['herb shop']
+          location: userLatLng,
+          radius: 2500,
+          keyword: ['dispensary']
         }, callback);
-
-
       function callback(results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-        	console.log('results', results)
+          console.log('results', results);
           for (var i = 0; i < results.length; i++) {
             createMarker(results[i]);
           }
         }
       }
-
       function createMarker(place) {
-      	console.log('place', place.geometry.location)
+        console.log('place', place.geometry.location);
+        var link = "<button onclick='initnav()'>Get Transit Directions</button>";   
         var placeLoc = place.geometry.location;
         var marker = new google.maps.Marker({
             map: mapObject,
             position: place.geometry.location
          });
-
         google.maps.event.addListener(marker, 'click', function() {
-          infowindow.setContent(place.name);
+          infowindow.setContent(place.name + "<br />" + link);
           infowindow.open(googleMap, this);
+
+                        latit = marker.getPosition().lat();
+                        longit = marker.getPosition().lng();
+                        // console.log("lat: " + latit);
+                        // console.log("lng: " + longit);
         });
       }
-
       }
+      function initnav(){
+      if (navigator.geolocation) { //Checks if browser supports geolocation
+   navigator.geolocation.getCurrentPosition(function (position) {                                                              //This gets the
+     var latitude = position.coords.latitude;                    //users current
+     var longitude = position.coords.longitude;                 //location
+     var coords = new google.maps.LatLng(latitude, longitude); //Creates variable for map coordinates
+     var directionsService = new google.maps.DirectionsService();
+     var directionsDisplay = new google.maps.DirectionsRenderer();
+     var mapOptions = //Sets map options
+     {
+       zoom: 15,  //Sets zoom level (0-21)
+       center: coords, //zoom in on users location
+       mapTypeControl: true, //allows you to select map type eg. map or satellite
+       navigationControlOptions:
+       {
+         style: google.maps.NavigationControlStyle.SMALL //sets map controls size eg. zoom
+       },
+       mapTypeId: google.maps.MapTypeId.ROADMAP //sets type of map Options:ROADMAP, SATELLITE, HYBRID, TERRIAN
+     };
+     map = new google.maps.Map( /*creates Map variable*/ document.getElementById("googleMap"), mapOptions /*Creates a new map using the passed optional parameters in the mapOptions parameter.*/);
+     directionsDisplay.setMap(googleMap);
+     directionsDisplay.setPanel(document.getElementById('panel'));
+     var request = {
+       origin: coords,
+       destination: {
+                            lat: latit,
+                            lng: longit
+                        },
+       travelMode: 'TRANSIT'
+     };
+
+     directionsService.route(request, function (response, status) {
+       if (status == google.maps.DirectionsStatus.OK) {
+         directionsDisplay.setDirections(response);
+       }
+     });
+   });
+ }
+}
 
       function geolocationError(positionError) {
         document.getElementById("error").innerHTML += "Error: " + positionError.message + "<br />";
       }
-
       function geolocateUser() {
         // If the browser supports the Geolocation API
         if (navigator.geolocation)
@@ -91,18 +126,18 @@
         else
           document.getElementById("error").innerHTML += "Your browser doesn't support the Geolocation API";
       }
-
-
       window.onload = geolocateUser();
+
     </script>
     
   {% endblock %}
 
 {% block content %}
-  <h2>Welcome, {{ user.username }}!</h2>
+  <h3 class = center >Welcome, {{ user.username }}!</h3>
 
 
   <div id="googleMap" style="width:100%;height:600px;"></div>
+  <div class = center id="panel"></div>
 
     <p><b>Address</b>: <span id="address"></span></p>
     <p id="error"></p>
