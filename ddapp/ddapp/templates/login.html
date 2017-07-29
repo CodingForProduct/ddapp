@@ -20,16 +20,12 @@
     {% endif %}
   </p>
   {% endfor %}
-  <button type="submit">Log in</button>
-  </form>
-  <br>
-<p><strong>-- Or log in with: --</strong></p>
-{% load static %}
-<a href="{% url "social:begin" "google-oauth2" %}"><img src="{% static "goog48x48.png" %}" alt="Google login"/></a>
-<a href="{% url "social:begin" "facebook" %}"><img src="{% static "fb48x48.png" %}" alt="Facebook login"/></a>
-<a href="{% url "social:begin" "twitter" %}"><img src="{% static "twit48x48.png" %}" alt="Twitter login"/></a>
+  <button type="submit">Log in</button><br/><br/>
+  <a href="{% url 'signup' %}">New to Dope Destinations? <br/>Sign up</a>
+</form>
 <br>
-<p>New to Dope Destinations? <a href="{% url 'signup' %}">Sign up</a></p>
+<p><strong>-- OR --</strong></p>
+<a class="btn btn-block btn-social btn-google" href="{% url 'social:begin' 'google-oauth2' %}"><span class="fa fa-google"></span> Login with Google</a><br>
+<a class="btn btn-block btn-social btn-facebook" href="{% url 'social:begin' 'facebook' %}"><span class="fa fa-facebook"></span> Login with Facebook</a><br>
+<a class="btn btn-block btn-social btn-twitter" href="{% url 'social:begin' 'twitter' %}"><span class="fa fa-twitter"></span> Login with Twitter</a>
 {% endblock %}
-
-
