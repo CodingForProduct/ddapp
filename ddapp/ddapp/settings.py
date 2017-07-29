@@ -145,9 +145,11 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'home'
 SOCIAL_AUTH_URL_NAMESPACE = 'social' #Solved the twitter no 'social' module error
-
