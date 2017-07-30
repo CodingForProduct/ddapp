@@ -1,1 +1,1 @@
-web: gunicorn ddapp.core.wsgi --log-file -
+web: gunicorn ddapp.wsgi --log-file -
